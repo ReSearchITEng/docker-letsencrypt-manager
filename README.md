@@ -110,7 +110,11 @@ The `list` command shows a table with one row per certificate and four columns:
 ### Adding a new domain/certificate
 
 1. Ensure the DNS configuration for the new domains is properly setup to point to the machine.
-2. Execute `letsencrypt-manager add <main domain name> [alternative domain names]...`
+2. If this is the first server (no previous certificates), ensure you have a server running on 80 what is pointing to /var/acme-webroot/. If you don't, you can run this command:
+``` docker run --name temp-nginx -v /var/acme-webroot/:/usr/share/nginx/html:ro -p 80:80 -d nginx ```
+3. Execute `letsencrypt-manager add <main domain name> [alternative domain names]...`
+4. If at step 2 you have created a temporary server, now it's time to remove it:
+```docker rm -f temp-nginx ```
 
 ### Configuring auto-renewal of certificates
 
